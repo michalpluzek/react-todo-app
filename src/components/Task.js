@@ -13,8 +13,6 @@ const Task = (props) => {
         ) : null}
         <button onClick={() => props.remove(id)}>X</button>
       </p>
-
-      <br />
       {isActive ? null : <p>{`Zadanie zakończono: ${finishDate}`}</p>}
     </div>
   );

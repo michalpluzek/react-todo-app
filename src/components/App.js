@@ -52,8 +52,10 @@ class App extends React.Component {
   handleRemoveClick = (id) => {
     const tasks = [...this.state.tasks];
     const index = tasks.findIndex((task) => task.id === id);
-
     tasks.splice(index, 1);
+
+    // let tasks = Array.from(this.state.tasks);
+    // tasks = tasks.filter(task=>task.id!==id)
 
     this.setState({
       tasks,
@@ -62,9 +64,16 @@ class App extends React.Component {
 
   handleDoneClick = (id) => {
     const tasks = [...this.state.tasks];
-    const index = tasks.findIndex((task) => task.id === id);
+    // const index = tasks.findIndex((task) => task.id === id);
+    // tasks[index].isActive = false;
+    // task.finishDate = new Date().getTime();
 
-    tasks[index].isActive = false;
+    tasks.forEach((task) => {
+      if (task.id === id) {
+        task.isActive = false;
+        task.finishDate = new Date().getTime();
+      }
+    });
 
     this.setState({
       tasks,
