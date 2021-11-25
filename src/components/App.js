@@ -50,10 +50,25 @@ class App extends React.Component {
   };
 
   handleRemoveClick = (task) => {
-    console.log("usuwam: " + task.text);
+    const tasks = [...this.state.tasks];
+    const index = tasks.indexOf(task);
+
+    tasks.splice(index, 1);
+
+    this.setState({
+      tasks,
+    });
   };
+
   handleDoneClick = (task) => {
-    console.log("zadanie gotowe: " + task.text);
+    const tasks = [...this.state.tasks];
+    const index = tasks.indexOf(task);
+
+    tasks[index].isActive = !task.isActive;
+
+    this.setState({
+      tasks,
+    });
   };
 
   render() {
