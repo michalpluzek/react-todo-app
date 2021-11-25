@@ -39,7 +39,7 @@ const TaskList = (props) => {
       </div>
       <hr />
       <div className="doneTasks">
-        <h2>{`Zadania do zrobienia (${doneTasks.length})`}</h2>
+        <h3>{`Zadania do zrobienia (${doneTasks.length})`}</h3>
         {doneTasks}
       </div>
     </>

@@ -7,13 +7,14 @@ const Task = (props) => {
   return (
     <div className="task">
       <p className={isImportant ? "red" : null}>
-        <strong>{text}</strong>
+        <strong>{text}</strong> - do <span>{date} </span>
+        {isActive ? (
+          <button onClick={() => props.done(props.task)}>Ukończone</button>
+        ) : null}
+        <button onClick={() => props.remove(props.task)}>X</button>
       </p>
-      {isActive ? (
-        <button onClick={() => props.done(props.task)}>Ukończone</button>
-      ) : null}
-      <button onClick={() => props.remove(props.task)}>X</button>
-      <p>{`Wykonać do: ${date}`}</p>
+
+      <br />
       {isActive ? null : <p>{`Zadanie zakończono: ${finishDate}`}</p>}
     </div>
   );
