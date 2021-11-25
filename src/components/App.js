@@ -49,9 +49,9 @@ class App extends React.Component {
     ],
   };
 
-  handleRemoveClick = (task) => {
+  handleRemoveClick = (id) => {
     const tasks = [...this.state.tasks];
-    const index = tasks.indexOf(task);
+    const index = tasks.findIndex((task) => task.id === id);
 
     tasks.splice(index, 1);
 
@@ -60,11 +60,11 @@ class App extends React.Component {
     });
   };
 
-  handleDoneClick = (task) => {
+  handleDoneClick = (id) => {
     const tasks = [...this.state.tasks];
-    const index = tasks.indexOf(task);
+    const index = tasks.findIndex((task) => task.id === id);
 
-    tasks[index].isActive = !task.isActive;
+    tasks[index].isActive = false;
 
     this.setState({
       tasks,
