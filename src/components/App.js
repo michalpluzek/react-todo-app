@@ -93,6 +93,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
+        <h1>Lista zadań</h1>
         <AddTask />
         <TaskList
           tasks={tasks}
