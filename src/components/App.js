@@ -19,7 +19,7 @@ class App extends React.Component {
         text: "zrobić pranie",
         date: "2021-11-29",
         isImportant: false,
-        isActive: false,
+        isActive: true,
         finishDate: "2021-11-28",
       },
       {
@@ -41,8 +41,16 @@ class App extends React.Component {
       {
         id: 4,
         text: "zagrać w remake diablo 2",
-        date: "2021-11-24",
+        date: "2021-12-24",
         isImportant: true,
+        isActive: true,
+        finishDate: null,
+      },
+      {
+        id: 5,
+        text: "polecieć w kosmos",
+        date: "2021-12-24",
+        isImportant: false,
         isActive: true,
         finishDate: null,
       },
