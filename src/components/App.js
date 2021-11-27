@@ -88,13 +88,38 @@ class App extends React.Component {
     });
   };
 
+  handleAddClick = ({ text, date, checked }) => {
+    const newId = this.getNewId();
+
+    const task = {
+      id: newId,
+      text,
+      date,
+      isImportant: checked,
+      isActive: true,
+      finishDate: null,
+    };
+
+    this.setState((prevState) => ({
+      tasks: [...prevState.tasks, task],
+    }));
+  };
+
+  getNewId() {
+    const id = Math.floor(Math.random() * 1000);
+    const checkId = this.state.tasks.findIndex((task) => task.id === id);
+
+    if (checkId === -1) return id;
+    else return this.getNewId();
+  }
+
   render() {
     const { tasks } = this.state;
 
     return (
       <div className="App">
         <h1>Lista zadań</h1>
-        <AddTask />
+        <AddTask tasks={tasks} add={this.handleAddClick} />
         <TaskList
           tasks={tasks}
           remove={this.handleRemoveClick}

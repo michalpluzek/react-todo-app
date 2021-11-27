@@ -3,6 +3,7 @@ import "./AddTask.css";
 
 class AddTask extends React.Component {
   currentDate = new Date().toISOString().slice(0, 10);
+
   state = {
     text: "",
     checked: false,
@@ -28,7 +29,18 @@ class AddTask extends React.Component {
     });
   };
 
-  handleClick = () => {};
+  handleClick = () => {
+    if (this.state.text.length <= 2) {
+      alert(`Za krótka nazwa: ${this.state.text}`);
+      return;
+    }
+    this.props.add(this.state);
+    this.setState({
+      text: "",
+      checked: false,
+      date: this.currentDate,
+    });
+  };
 
   render() {
     const { text, checked, date } = this.state;
