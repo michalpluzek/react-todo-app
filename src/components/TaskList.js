@@ -5,12 +5,20 @@ import "./TaskList.css";
 const TaskList = (props) => {
   const activeTasks = props.tasks
     .filter((task) => task.isActive)
+    .sort((a, b) => {
+      a = a.text.toLowerCase();
+      b = b.text.toLowerCase();
+      if (a > b) return 1;
+      if (a < b) return -1;
+      return 0;
+    })
     .map((task) => (
       <Task key={task.id} task={task} remove={props.remove} done={props.done} />
     ));
 
   const doneTasks = props.tasks
     .filter((task) => !task.isActive)
+    .sort((a, b) => b.finishDate - a.finishDate)
     .map((task) => (
       <Task key={task.id} task={task} remove={props.remove} done={props.done} />
     ));
