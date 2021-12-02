@@ -1,95 +1,91 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import AddTask from "./AddTask";
 import TaskList from "./TaskList";
 
-class App extends React.Component {
-  state = {
-    tasks: [
-      {
-        id: 0,
-        text: "posprzątać dom",
-        date: "2021-11-28",
-        isImportant: false,
-        isActive: true,
-        finishDate: null,
-      },
-      {
-        id: 1,
-        text: "zrobić pranie",
-        date: "2021-11-29",
-        isImportant: false,
-        isActive: true,
-        finishDate: "2021-11-28",
-      },
-      {
-        id: 2,
-        text: "ugotować obiad",
-        date: "2021-11-30",
-        isImportant: false,
-        isActive: true,
-        finishDate: null,
-      },
-      {
-        id: 3,
-        text: "znaleźć pracę",
-        date: "2021-12-24",
-        isImportant: true,
-        isActive: true,
-        finishDate: null,
-      },
-      {
-        id: 4,
-        text: "zagrać w remake diablo 2",
-        date: "2021-12-24",
-        isImportant: true,
-        isActive: true,
-        finishDate: null,
-      },
-      {
-        id: 5,
-        text: "polecieć w kosmos",
-        date: "2021-12-24",
-        isImportant: false,
-        isActive: true,
-        finishDate: null,
-      },
-    ],
+const taskExample = [
+  {
+    id: 0,
+    text: "posprzątać dom",
+    date: "2021-11-28",
+    isImportant: false,
+    isActive: true,
+    finishDate: null,
+  },
+  {
+    id: 1,
+    text: "zrobić pranie",
+    date: "2021-11-29",
+    isImportant: false,
+    isActive: true,
+    finishDate: "2021-11-28",
+  },
+  {
+    id: 2,
+    text: "ugotować obiad",
+    date: "2021-11-30",
+    isImportant: false,
+    isActive: true,
+    finishDate: null,
+  },
+  {
+    id: 3,
+    text: "znaleźć pracę",
+    date: "2021-12-24",
+    isImportant: true,
+    isActive: true,
+    finishDate: null,
+  },
+  {
+    id: 4,
+    text: "zagrać w remake diablo 2",
+    date: "2021-12-24",
+    isImportant: true,
+    isActive: true,
+    finishDate: null,
+  },
+  {
+    id: 5,
+    text: "polecieć w kosmos",
+    date: "2021-12-24",
+    isImportant: false,
+    isActive: true,
+    finishDate: null,
+  },
+];
+
+const App = () => {
+  const [tasks, setTasks] = useState([...taskExample]);
+
+  const handleRemoveClick = (id) => {
+    const _tasks = [...tasks];
+    const index = _tasks.findIndex((task) => task.id === id);
+    _tasks.splice(index, 1);
+
+    // let _tasks = Array.from(tasks);
+    // _tasks = tasks.filter(task=>task.id!==id)
+
+    setTasks(_tasks);
   };
 
-  handleRemoveClick = (id) => {
-    const tasks = [...this.state.tasks];
-    const index = tasks.findIndex((task) => task.id === id);
-    tasks.splice(index, 1);
-
-    // let tasks = Array.from(this.state.tasks);
-    // tasks = tasks.filter(task=>task.id!==id)
-
-    this.setState({
-      tasks,
-    });
-  };
-
-  handleDoneClick = (id) => {
-    const tasks = [...this.state.tasks];
+  const handleDoneClick = (id) => {
+    const _tasks = [...tasks];
     // const index = tasks.findIndex((task) => task.id === id);
     // tasks[index].isActive = false;
     // task.finishDate = new Date().getTime();
 
-    tasks.forEach((task) => {
+    _tasks.forEach((task) => {
       if (task.id === id) {
         task.isActive = false;
         task.finishDate = new Date().getTime();
       }
     });
 
-    this.setState({
-      tasks,
-    });
+    setTasks(_tasks);
   };
 
-  handleAddClick = ({ text, date, checked }) => {
-    const newId = this.getNewId();
+  const handleAddClick = (text, checked, date) => {
+    const newId = getNewId();
 
     const task = {
       id: newId,
@@ -100,34 +96,28 @@ class App extends React.Component {
       finishDate: null,
     };
 
-    this.setState((prevState) => ({
-      tasks: [...prevState.tasks, task],
-    }));
+    setTasks((prevValue) => [...prevValue, task]);
   };
 
-  getNewId() {
+  const getNewId = () => {
     const id = Math.floor(Math.random() * 1000);
-    const checkId = this.state.tasks.findIndex((task) => task.id === id);
+    const checkId = tasks.findIndex((task) => task.id === id);
 
     if (checkId === -1) return id;
-    else return this.getNewId();
-  }
+    else return getNewId();
+  };
 
-  render() {
-    const { tasks } = this.state;
-
-    return (
-      <div className="App">
-        <h1>Lista zadań</h1>
-        <AddTask tasks={tasks} add={this.handleAddClick} />
-        <TaskList
-          tasks={tasks}
-          remove={this.handleRemoveClick}
-          done={this.handleDoneClick}
-        />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="App">
+      <h1>Lista zadań</h1>
+      <AddTask tasks={tasks} add={handleAddClick} />
+      <TaskList
+        tasks={tasks}
+        remove={handleRemoveClick}
+        done={handleDoneClick}
+      />
+    </div>
+  );
+};
 
 export default App;
