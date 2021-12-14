@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { StoreContext } from "../store/StoreProvider";
 import "./AddTask.css";
 
 const AddTask = (props) => {
@@ -8,6 +9,8 @@ const AddTask = (props) => {
   const [checked, setChecked] = useState(false);
   // const [date, setDate] = useState(new Date().toLocaleDateString().split(".").reverse().join("-"))
   const [date, setDate] = useState(currentDate);
+
+  const { tasks, setTasks } = useContext(StoreContext);
 
   const handleDateChange = (e) => {
     setDate(e.target.value);
@@ -21,12 +24,32 @@ const AddTask = (props) => {
     setChecked(e.target.checked);
   };
 
-  const handleClick = () => {
+  const getNewId = () => {
+    const id = Math.floor(Math.random() * 1000);
+    const checkId = tasks.findIndex((task) => task.id === id);
+
+    if (checkId === -1) return id;
+    else return getNewId();
+  };
+
+  const handleOnClick = () => {
     if (text.length <= 2) {
       alert(`Za krótka nazwa: ${text}`);
       return;
     }
-    props.add(text, checked, date);
+
+    const newId = getNewId();
+
+    const task = {
+      id: newId,
+      text,
+      date,
+      isImportant: checked,
+      isActive: true,
+      finishDate: null,
+    };
+
+    setTasks((prevValue) => [...prevValue, task]);
 
     setText("");
     setChecked(false);
@@ -61,7 +84,7 @@ const AddTask = (props) => {
         id="date"
         onChange={handleDateChange}
       />
-      <button onClick={handleClick}>Dodaj</button>
+      <button onClick={handleOnClick}>Dodaj</button>
       <hr />
     </div>
   );

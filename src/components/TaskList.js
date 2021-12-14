@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StoreContext } from "../store/StoreProvider";
 import Task from "./Task";
 import "./TaskList.css";
 
-const TaskList = (props) => {
-  const activeTasks = props.tasks
+const TaskList = () => {
+  const { tasks } = useContext(StoreContext);
+
+  const activeTasks = tasks
     .filter((task) => task.isActive)
     .sort((a, b) => {
       a = a.text.toLowerCase();
@@ -12,16 +15,12 @@ const TaskList = (props) => {
       if (a < b) return -1;
       return 0;
     })
-    .map((task) => (
-      <Task key={task.id} task={task} remove={props.remove} done={props.done} />
-    ));
+    .map((task) => <Task key={task.id} {...task} />);
 
-  const doneTasks = props.tasks
+  const doneTasks = tasks
     .filter((task) => !task.isActive)
     .sort((a, b) => b.finishDate - a.finishDate)
-    .map((task) => (
-      <Task key={task.id} task={task} remove={props.remove} done={props.done} />
-    ));
+    .map((task) => <Task key={task.id} {...task} />);
 
   return (
     <>
@@ -31,7 +30,7 @@ const TaskList = (props) => {
       </div>
       <hr />
       <div className="doneTasks">
-        <h3>{`Zadania do zrobienia (${doneTasks.length})`}</h3>
+        <h3>{`Zadania ukończone (${doneTasks.length})`}</h3>
         {doneTasks.length > 5 && (
           <span style={{ fontSize: 10 }}>
             Wyświetlonych jest tylko 5 ostatnio ukończonych zadań
